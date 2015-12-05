@@ -1,0 +1,10 @@
+name: minecraft
+summary: Minecraft Server
+maintainer: Marco Ceppi <marco@ceppi.net>
+description: |
+  Will deploy OpenJDK 6 JRE and the latest Minecraft server
+categories:
+- app-servers
+provides:
+  server:
+    interface: minecraft

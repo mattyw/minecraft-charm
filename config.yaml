@@ -1,0 +1,33 @@
+options:
+  level-name:
+    default: world
+    type: string
+    description: Name of the level, will be generated if it doesn't exist
+  allow-nether:
+    default: true
+    type: boolean
+    description: Allow generation of the nether, true or false
+  motd:
+    default: Juju Powered Minecraft Server
+    type: string
+    description: Message of the day displayed to users in the server list
+  max-players:
+    default: 10
+    type: int
+    description: Maximum players allowed on the server
+  spawn-animals:
+    default: true
+    type: boolean
+    description: Generate animals, true or false
+  spawn-monsters:
+    default: true
+    type: boolean
+    description: Generate monsters, true or false
+  difficulty:
+    default: 1
+    type: int
+    description: Level of complexity 1-5
+  port:
+    default: 25565
+    type: int
+    description: Port for which Minecraft runs upon

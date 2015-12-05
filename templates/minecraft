@@ -1,0 +1,12 @@
+# Minecraft upstart
+# this script will start/stop Minecraft
+description "Minecraft Server"
+version "1.0"
+author "Marco Ceppi"
+
+env CPU_COUNT=1
+env JAVA_ARGS="-Xmx1024M -Xms1024M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalPacing -XX:+AggressiveOpts"
+env LOG="server.log"
+
+chdir /opt/minecraft
+exec java $JAVA_ARGS -XX:ParallelGCThreads=$CPU_COUNT -jar minecraft_server.jar nogui >> $LOG 2>&1
