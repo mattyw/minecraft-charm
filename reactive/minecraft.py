@@ -1,10 +1,11 @@
 import shutil
+import urllib.request
 import os
 import os.path
 
 from charmhelpers.core import hookenv, host
 from charmhelpers.core.templating import render
-from charmhelpers.fetch import apt_update, apt_install, install_remote
+from charmhelpers.fetch import apt_update, apt_install
 from charms.reactive import hook
 
 
@@ -27,11 +28,34 @@ def upgrade():
         host.service_start(service)
 
 
+@hook("config-changed")
+def config_changed():
+    config = hookenv.config()
+    need_restart = False
+    if host.service_running("minecraft"):
+        need_restart = True
+    if need_restart:
+        stop()
+
+    if not os.path.exists("/opt/minecraft"):
+        os.makedirs("/opt/minecraft")
+    render(source="config",
+        target="/opt/minecraft/server.properties",
+        owner="root",
+        perms=0o644,
+        context={
+            "cfg": config,
+        })
+    if need_restart:
+        start()
+
+
 @hook('start')
 def start():
+    config = hookenv.config()
     host.service_start("minecraft")
     hookenv.status_set('active', 'Ready')
-    hookenv.open_port(25565)
+    hookenv.open_port(config['port'])
 
 
 @hook('stop')
@@ -46,15 +70,16 @@ def install_workload(config):
     apt_install("openjdk-6-jre")
 
     hookenv.status_set('active', 'Fetching minecraft')
-    install_remote("https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar")
+    server_jar = urllib.request.urlopen("https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar")
     hookenv.status_set('active', 'Installing minecraft')
+    if not os.path.exists("/opt/minecraft"):
+        os.makedirs("/opt/minecraft")
+    with open("/opt/minecraft/minecraft_server.jar", 'wb') as dest :
+        dest.write(server_jar.read())
     render(source="minecraft",
         target="/etc/init/minecraft.conf",
         owner="root",
         perms=0o644,
         context={},
         )
-    if not os.path.exists("/opt/minecraft"):
-        os.makedirs("/opt/minecraft")
     shutil.copy("opt/eula.txt", "/opt/minecraft/eula.txt")
-    shutil.copy("fetched/minecraft_server.1.8.8.jar", "/opt/minecraft/minecraft_server.jar")

@@ -1,9 +1,9 @@
 options:
-  level-name:
+  level_name:
     default: world
     type: string
     description: Name of the level, will be generated if it doesn't exist
-  allow-nether:
+  allow_nether:
     default: true
     type: boolean
     description: Allow generation of the nether, true or false
@@ -11,15 +11,15 @@ options:
     default: Juju Powered Minecraft Server
     type: string
     description: Message of the day displayed to users in the server list
-  max-players:
+  max_players:
     default: 10
     type: int
     description: Maximum players allowed on the server
-  spawn-animals:
+  spawn_animals:
     default: true
     type: boolean
     description: Generate animals, true or false
-  spawn-monsters:
+  spawn_monsters:
     default: true
     type: boolean
     description: Generate monsters, true or false
@@ -31,3 +31,7 @@ options:
     default: 25565
     type: int
     description: Port for which Minecraft runs upon
+  allow_flight:
+    default: false
+    type: boolean
+    description: Allow players to fly, true or false

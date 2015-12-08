@@ -1,0 +1,10 @@
+#Minecraft server properties
+server-port={{cfg.port}}
+allow-flight={{cfg.allow_flight}}
+level-name={{cfg.level_name}}
+allow-nether={{cfg.allow_nether}}
+motd={{cfg.motd}}
+max-players={{cfg.max_players}}
+spawn-animals={{cfg.spawn_animals}}
+spawn-monsters={{cfg.spawn_monsters}}
+difficulty={{cfg.difficulty}}
