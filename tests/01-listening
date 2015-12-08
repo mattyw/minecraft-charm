@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+import amulet
+import requests
+import unittest
+import socket
+
+
+class TestDeployment(unittest.TestCase):
+    def setUp(self):
+        self.deployment = amulet.Deployment(series='trusty')
+
+        self.deployment.add('minecraft')
+        self.deployment.expose('minecraft')
+
+        try:
+            self.deployment.setup(timeout=900)
+            self.deployment.sentry.wait()
+        except amulet.helpers.TimeoutError:
+            amulet.raise_status(amulet.SKIP, msg="Environment wasn't stood up in time")
+        except:
+            raise
+
+    def test_something_is_listening(self):
+        # More information on writing Amulet tests can be found at:
+        #     https://juju.ubuntu.com/docs/tools-amulet.html
+        addr = self.deployment.sentry["minecraft"][0].info["public-address"]
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((addr, 25565))
+
+
+if __name__ == '__main__':
+    unittest.main()

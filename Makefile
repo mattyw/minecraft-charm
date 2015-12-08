@@ -12,4 +12,7 @@ deploy:
 clean:
 	$(RM) -r $(PROJECT_ROOT)/trusty/minecraft
 
-.PHONY: all compose clean deploy
+test: compose
+	(cd $(PROJECT_ROOT)/trusty/minecraft; ./tests/01-listening)
+
+.PHONY: all compose clean deploy test
