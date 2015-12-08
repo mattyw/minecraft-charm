@@ -1,19 +1,10 @@
-By deploying this charm you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).
+By deploying this charm you are indicating your agreement to the EULA (https://account.mojang.com/documents/minecraft_eula).
 
-Post deployment, the minecraft init script has the following
-options available
+This is charm deploys a running minecraft server
 
-Usage:
- service minecraft [ACTION]
-
- Available Actions:
- stop
-   - Stop the Minecraft Server
- restart
-   - Restart Minecraft Server
- update
-   - Update the Minecraft Server
- status
-   - Determine the run status of the Minecraft Server
- backup
-   - Perform a save and archival of the current map
+```
+juju bootstrap
+juju deploy minecraft
+juju expose minecraft
+# Start a minecraft client, connect to the server and hunt diamonds.
+```
