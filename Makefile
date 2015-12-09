@@ -8,11 +8,13 @@ compose:
 deploy:
 	JUJU_REPOSITORY=$(PROJECT_ROOT) juju deploy local:trusty/minecraft
 
-
 clean:
 	$(RM) -r $(PROJECT_ROOT)/trusty/minecraft
+
+proof:
+	JUJU_REPOSITORY=$(PROJECT_ROOT) charm proof
 
 test: compose
 	(cd $(PROJECT_ROOT)/trusty/minecraft; ./tests/01-listening)
 
-.PHONY: all compose clean deploy test
+.PHONY: all compose clean deploy test proof
