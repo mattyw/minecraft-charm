@@ -2,7 +2,8 @@ By deploying this charm you are indicating your agreement to the EULA (https://a
 
 This is charm deploys a running minecraft server
 
-juju bootstrap
-juju deploy minecraft
-juju expose minecraft
-# Start a minecraft client, connect to the server and hunt diamonds.
+    juju bootstrap
+    juju deploy minecraft
+    juju expose minecraft
+    # Start a minecraft client, connect to the server and hunt diamonds.
+
