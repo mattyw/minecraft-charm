@@ -22,10 +22,10 @@ def upgrade():
     if host.service_running(service):
         need_restart = True
     if need_restart:
-        host.service_stop(service)
+        stop()
     install_workload(config)
     if need_restart:
-        host.service_start(service)
+        start()
 
 
 @hook("config-changed")
