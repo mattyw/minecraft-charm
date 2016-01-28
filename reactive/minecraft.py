@@ -40,12 +40,11 @@ def config_changed():
     if not os.path.exists("/opt/minecraft"):
         os.makedirs("/opt/minecraft")
     render(source="config",
-        target="/opt/minecraft/server.properties",
-        owner="root",
-        perms=0o644,
-        context={
-            "cfg": config,
-        })
+           target="/opt/minecraft/server.properties",
+           owner="root",
+           perms=0o644,
+           context={"cfg": config, }
+           )
     if need_restart:
         start()
 
@@ -65,21 +64,22 @@ def stop():
 
 
 def install_workload(config):
-    hookenv.status_set('active', 'Installing java')
+    hookenv.status_set('maintenance', 'Installing java')
     apt_update()
     apt_install("openjdk-6-jre")
 
-    hookenv.status_set('active', 'Fetching minecraft')
+    hookenv.status_set('maintenance', 'Fetching minecraft')
     server_jar = urllib.request.urlopen("https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar")
-    hookenv.status_set('active', 'Installing minecraft')
+    hookenv.status_set('maintenance', 'Installing minecraft')
     if not os.path.exists("/opt/minecraft"):
         os.makedirs("/opt/minecraft")
-    with open("/opt/minecraft/minecraft_server.jar", 'wb') as dest :
+    with open("/opt/minecraft/minecraft_server.jar", 'wb') as dest:
         dest.write(server_jar.read())
     render(source="minecraft",
-        target="/etc/init/minecraft.conf",
-        owner="root",
-        perms=0o644,
-        context={},
-        )
+           target="/etc/init/minecraft.conf",
+           owner="root",
+           perms=0o644,
+           context={},
+           )
     shutil.copy("opt/eula.txt", "/opt/minecraft/eula.txt")
+    hookenv.status_set('maintenance', 'Minecraft installed')
