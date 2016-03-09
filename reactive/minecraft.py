@@ -15,9 +15,8 @@ def install():
     apt_update()
     apt_install("openjdk-6-jre")
 
-    hookenv.status_set('maintenance', 'Fetching minecraft')
-    server_jar = urllib.request.urlopen("https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar")
     hookenv.status_set('maintenance', 'Installing minecraft')
+    server_jar = urllib.request.urlopen("https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar")  # noqa
     if not os.path.exists("/opt/minecraft"):
         os.makedirs("/opt/minecraft")
     with open("/opt/minecraft/minecraft_server.jar", 'wb') as dest:
@@ -76,5 +75,7 @@ def start():
 
 @hook('stop')
 def stop():
+    config = hookenv.config()
     host.service_stop("minecraft")
+    hookenv.close_port(config['port'])
     hookenv.status_set('active', 'Stopped')
