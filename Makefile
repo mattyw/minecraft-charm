@@ -12,9 +12,12 @@ clean:
 	$(RM) -r $(PROJECT_ROOT)/trusty/minecraft
 
 proof:
-	JUJU_REPOSITORY=$(PROJECT_ROOT) charm proof
+	charm proof
+
+lint: proof
+	flake8 $(wildcard hooks reactive unit_tests tests)
 
 test: compose
 	(cd $(PROJECT_ROOT)/trusty/minecraft; ./tests/01-listening)
 
-.PHONY: all compose clean deploy test proof
+.PHONY: all compose clean deploy test proof lint
